@@ -127,3 +127,18 @@ function safeEval(expr) {
   buttons.forEach(btn => {
     btn.addEventListener('click', () => handleButton(btn.value, btn.className));
   });
+
+clearBtn.addEventListener('click', () => handleButton('C'));
+clearAllBtn.addEventListener('click', () => handleButton('CE'));
+equalBtn.addEventListener('click', () => handleButton('='));
+clearHistoryBtn.addEventListener('click', () => {
+  history = [];
+  saveHistory();
+  renderHistory();
+});
+
+document.addEventListener('keydown', handleKeyboard);
+
+loadHistory();
+renderHistory();
+updateDisplay();
