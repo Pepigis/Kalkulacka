@@ -123,3 +123,7 @@ function safeEval(expr) {
       handleButton(key);
     }
   }
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => handleButton(btn.value, btn.className));
+  });
