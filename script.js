@@ -103,3 +103,23 @@ function safeEval(expr) {
     inputDisplay.textContent = input || '0';
     outputDisplay.textContent = output;
   }
+
+  function handleKeyboard(e) {
+    const key = e.key;
+    if (/\d/.test(key)) {
+      handleButton(key);
+    } else if (OPERATORS.includes(key)) {
+      handleButton(key);
+    } else if (key === 'Enter' || key === '=') {
+      e.preventDefault();
+      handleButton('=');
+    } else if (key === 'Backspace') {
+      handleButton('C');
+    } else if (key === 'Escape') {
+      handleButton('CE');
+    } else if (key === DECIMAL) {
+      handleButton(DECIMAL);
+    } else if (key === '(' || key === ')') {
+      handleButton(key);
+    }
+  }
