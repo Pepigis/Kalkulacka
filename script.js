@@ -53,3 +53,48 @@ function safeEval(expr) {
       input = lastResult !== undefined ? lastResult : '0';
     }
   }
+
+  function handleButton(value, className) {
+    if (value === 'C') {
+      input = input.trim();
+      if (input.length > 0) {
+        if (/\s$/.test(input)) {
+          input = input.slice(0, input.lastIndexOf(' '));
+        } else {
+          input = input.slice(0, -1);
+        }
+      }
+    } else if (value === 'CE') {
+      input = '';
+      output = '0';
+    } else if (value === '=') {
+      if (!input) return;
+      try {
+        const result = safeEval(input);
+        output = String(result);
+        lastResult = output;
+        history.push({ input: input, output: output });
+        saveHistory();
+        renderHistory();
+        input = '';
+      } catch (e) {
+        output = 'Error';
+      }
+    } else if (OPERATORS.includes(value)) {
+      useResultIfInputEmpty(value);
+      if (input === '' && value !== '-') return;
+      if (input.slice(-1) === ' ' || input === '-') return;
+      input += ' ' + value + ' ';
+    } else if (value === '(' || value === ')') {
+      input += value;
+    } else if (value === DECIMAL) {
+      const parts = input.split(/[\+\-\*\/\^ ]/);
+      const last = parts[parts.length - 1];
+      if (!last.includes('.')) {
+        input += value;
+      }
+    } else if (/^\d$/.test(value)) {
+      input += value;
+    }
+    updateDisplay();
+  }
