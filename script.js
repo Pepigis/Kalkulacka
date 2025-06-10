@@ -36,3 +36,20 @@ function renderHistory() {
     historyDisplay.appendChild(div);
   });
 }
+
+function safeEval(expr) {
+    expr = expr.replace(/\^/g, '**');
+    if (!/^[-+*/().\d\s*]+$/.test(expr)) {
+      throw new Error('Invalid characters');
+    }
+    if (/[^0-9)][+\-/*.]{2,}/.test(expr.replace(/\*\*/g, ''))) {
+      throw new Error('Invalid sequence');
+    }
+    return Function('"use strict";return (' + expr + ')')();
+  }
+  
+  function useResultIfInputEmpty(op) {
+    if (input === '' && OPERATORS.includes(op)) {
+      input = lastResult !== undefined ? lastResult : '0';
+    }
+  }
