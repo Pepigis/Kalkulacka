@@ -98,3 +98,8 @@ function safeEval(expr) {
     }
     updateDisplay();
   }
+
+  function updateDisplay() {
+    inputDisplay.textContent = input || '0';
+    outputDisplay.textContent = output;
+  }
